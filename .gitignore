@@ -1,0 +1,13 @@
+#Python/Django
+*.pyc
+__pycache__/
+*.sqlite3
+media/
+staticfiles/
+.env
+
+# Gestor de paquetes uv
+.venv/
+uv.lock # (Opcional, pero se recomienda subir uv.lock si es una aplicación final para asegurar versiones exactas)
+.ruff_cache/
+.mypy_cache/

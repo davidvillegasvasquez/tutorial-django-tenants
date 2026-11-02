@@ -1,0 +1,22 @@
+[project]
+name = "tutorial-django-tenants"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "davidvillegasvásquez", email = "davidvillegas1@hotmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "django==5.2.18",
+    "django-environ>=0.14.0",
+    "django-tenants>=4.0.1",
+    "psycopg[binary]>=3.3.6",
+]
+
+[project.scripts]
+tutorial-django-tenants = "tutorial_django_tenants:main"
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14.0"]
+build-backend = "uv_build"
