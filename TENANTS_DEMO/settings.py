@@ -17,13 +17,13 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Inicializar environ
+# Inicializar environ:
 env = environ.Env(
     # definir tipos de datos y valores por defecto
     DEBUG=(bool, False)
 )
 
-#Leer el archivo .env si existe
+#Leer el archivo .env si existe:
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
@@ -35,19 +35,12 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-# Application definition
-"""
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-]
-"""
+#Si no agrego el comodin '.localhost', no se podrá acceder a los dominios de los inquilinos en el servidor de desarrollo:
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', 'localhost']
+#Al correr el servidor de desarrolo, el "truco" para que la terminal imprima el enlace como localhost, el dominio de tu tenant principalen en este tutorial,
+#en lugar de 127.0.0.1, es especificar explícitamente el nombre del host al levantar el servidor de desarrolo. En lugar de ejecutar python manage.py runserver, corre el comando: python manage.py runserver localhost:8000 
 
+# Application definition
 SHARED_APPS = (
     'django_tenants',  # mandatory
     'django.contrib.contenttypes',
@@ -57,7 +50,10 @@ SHARED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
-    'core', # you must list the app where your tenant model resides in
+    #Para que el superusuario (que usualmente vive en el esquema public) pueda renderizar el admin correctamente con sus css:
+    'django.contrib.staticfiles', 
+    #you must list the app where your tenant model resides in
+    'core', 
 )
 
 TENANT_APPS = (
@@ -97,7 +93,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TENANTS_DEMO.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -112,11 +107,9 @@ DATABASES = {
     }
 }
 
-
 DATABASE_ROUTERS = (
     'django_tenants.routers.TenantSyncRouter',
 )
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -136,31 +129,33 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+# Carpeta física donde se recopilarán los archivos en producción (debe estar fuera de tus apps)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Carpetas adicionales donde Django busca estáticos en desarrollo
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 AUTH_USER_MODEL = 'core.User'
-
 TENANT_MODEL = 'core.Client'
-
 TENANT_DOMAIN_MODEL = 'core.Domain'
+#Asegúrate de que en tu archivo settings.py tienes definido el ID del sitio. En este tutorial, el id del esquema del tenant público (tenant_id=1, schema_name=public, name=root, domain=localhost):
+SITE_ID = 1 #tenan_id=1

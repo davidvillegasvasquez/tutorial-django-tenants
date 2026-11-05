@@ -5,6 +5,7 @@ __pycache__/
 media/
 staticfiles/
 .env
+usuarios.txt
 
 # Gestor de paquetes uv
 .venv/
