@@ -6,6 +6,7 @@ media/
 staticfiles/
 .env
 usuarios.txt
+correr.txt
 
 # Gestor de paquetes uv
 .venv/
